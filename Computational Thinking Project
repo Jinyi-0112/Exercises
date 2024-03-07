@@ -1,0 +1,48 @@
+def recommendFriendPair(given_network):
+  '''
+    return (u, v) # the recommended friend pair that your algo has determined
+  '''
+  network = given_network.network
+  N = given_network.N
+  E = given_network.E
+  # ---------------------------------------------------------------------------
+  # do not change the code above. you may change the code below
+
+  # TODO: Implement your algorithm here
+
+  friends_dict = {} #to store the list of friends of each person in the network
+  for i in range(len(network)):
+    friends = []
+    connections = network[i]
+    for j in range(len(connections)):
+      if connections[j] == 1:
+        friends.append(j)
+    friends_dict[i] = friends
+  
+  max_friend_num = 0 #maximum number of friends one person in the network can have
+  max_friend_ppl = 0 #the person with the larges number of friends
+  for key in friends_dict:
+    friends_num = len(friends_dict[key])
+    if friends_num > max_friend_num:
+      max_friend_num = friends_num
+      max_friend_ppl = key
+  
+  friends_list = friends_dict[max_friend_ppl] #list of friends of the person with maximum number of friends
+
+  common_friend = 0
+  second_user = 0
+  for ppl in friends_dict:
+    if ppl != max_friend_ppl and ppl not in friends_list:
+      common_list = []
+      for k in friends_dict[ppl]:
+        if k in friends_list:
+          common_list.append(k)
+      common_num = len(common_list)
+      if common_num > common_friend:
+        common_friend = common_num
+        second_user = ppl
+  
+  u = max_friend_ppl
+  v = second_user
+
+  return (u, v)
